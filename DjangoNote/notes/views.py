@@ -1,4 +1,3 @@
-from django.core.serializers import serialize
 from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -43,3 +42,8 @@ class NoteDetail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        note = self.get_object(pk)
+        note.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
