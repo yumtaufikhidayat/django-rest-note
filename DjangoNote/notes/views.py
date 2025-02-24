@@ -24,17 +24,20 @@ class NoteList(APIView):
         }, status=status.HTTP_200_OK)
 
 class NoteDetail(APIView):
+    @staticmethod
     def get_object(self, pk):
         try:
             return Note.objects.get(pk=pk)
         except Note.DoesNotExist:
             raise Http404
 
+    @staticmethod
     def get(self, request, pk):
         note = self.get_object(pk)
         serializer = NoteSerializer(note, context={'request': request})
         return Response(serializer.data)
 
+    @staticmethod
     def put(self, request, pk):
         note = self.get_object(pk)
         serializer = NoteSerializer(note, data=request.data, context={'request': request})
@@ -43,6 +46,7 @@ class NoteDetail(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @staticmethod
     def delete(self, request, pk):
         note = self.get_object(pk)
         note.delete()
