@@ -8,13 +8,13 @@ class NoteSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Note
-        fields = ['id', 'title', 'body', 'tags', 'createdAt', 'updatedAt', '_links']
+        fields = ['id', 'title', 'body', 'tags', 'createdAt', 'updatedAt', 'links']
 
-    def get__links(self, obj):
+    def get_links(self, obj):
         request = self.context.get('request')
         return [
             {
-                "rel": "self",
+                "rel": "create",
                 "href": reverse('note-list', request=request),
                 "action": "POST",
                 "types": ["application/json"]
@@ -26,7 +26,7 @@ class NoteSerializer(serializers.HyperlinkedModelSerializer):
                 "types": ["application/json"]
             },
             {
-                "rel": "self",
+                "rel": "update",
                 "href": reverse('note-detail', kwargs={'pk': obj.pk}, request=request),
                 "action": "PUT",
                 "types": ["application/json"]
