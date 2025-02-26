@@ -4,7 +4,7 @@ from notes.models import Note
 
 
 class NoteSerializer(serializers.HyperlinkedModelSerializer):
-    _links = serializers.SerializerMethodField()
+    links = serializers.SerializerMethodField()
 
     class Meta:
         model = Note
@@ -21,13 +21,13 @@ class NoteSerializer(serializers.HyperlinkedModelSerializer):
             },
             {
                 "rel": "self",
-                "href": reverse('note-detail', kwargs={'pk': obj.pk}, request=request),
+                "href": reverse('note-detail', kwargs={'pk': str(obj.pk)}, request=request),
                 "action": "GET",
                 "types": ["application/json"]
             },
             {
                 "rel": "update",
-                "href": reverse('note-detail', kwargs={'pk': obj.pk}, request=request),
+                "href": reverse('note-detail', kwargs={'pk': str(obj.pk)}, request=request),
                 "action": "PUT",
                 "types": ["application/json"]
             }
